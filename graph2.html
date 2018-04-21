@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+  	<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  	
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
+  	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
+    
+    <style>
+    body {
+      margin: 0px;
+    }
+    .node {
+      cursor: pointer;
+      }
+    
+    .node:hover {
+      stroke: #000;
+      stroke-width: 2.5px;
+    }
+    
+    .node--leaf {
+      fill: white;
+    }
+    
+    .label {
+      font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-anchor: middle;
+      /*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;*/
+    }
+    
+    .label2 {
+      font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-anchor: middle;
+      /*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;*/
+    }
+    
+    .label,
+    .label2,
+    .node--root,
+    .node--leaf {
+     pointer-events: none;
+    }
+    
+    .i-am-centered { margin: auto; max-width: 300px;}
+    
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 1.5px;
+    }
+    
+    #parent {
+    text-align:center;
+    }
+    </style>
+ </head> 
+ 
+ 
+<body>
+
+  <nav class="navbar navbar-inverse bg-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" style="color: #ffffff;" href="/">News: A friend or foe</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a style="color: #ffffff;" href="/">Home</a></li>
+                    <li><a style="color: #ffffff;" href="/">About</a></li>
+                 
+            </div>
+        </div>
+    </nav>
+
+  
+<div class="row" id="parent">
+  <div id="option">
+    <input name="updateButton" 
+           type="button" 
+           value="News" 
+           class="btn btn-primary btn-large active"
+           onclick="updateData_Main()" />
+           
+           
+           
+    <input name="updateButton" 
+           type="button" 
+           value="Channel 1" 
+            class="btn btn-primary btn-large active"
+           onclick="updateData_channel1()" />
+    
+    
+    <input name="updateButton" 
+           type="button" 
+           value="Channel 2" 
+            class="btn btn-primary btn-large active"
+           onclick="updateData_channel2()" />
+    
+    <input name="updateButton" 
+           type="button" 
+           value="Channel 3" 
+            class="btn btn-primary btn-large active"
+           onclick="updateData_channel3()" />
+    
+    <input name="updateButton" 
+           type="button" 
+           value="Channel 4" 
+            class="btn btn-primary btn-large active"
+           onclick="updateData_channel4()" />
+</div>
+
+
+
+<div>
+    <div class="col-md-6">
+      <svg id= "svg1" width="400" height="400" style="background: white;"></svg>
+      <h1>PUBLIC</h1>
+    </div>
+    
+    
+    <div class="col-md-6">
+      <svg id="svg2" width="400" height="400" style="background: white;"></svg>
+      <h1 id="news">NEWS</h1>
+    </div>
+    
+</div> 
+<br>
+
+
+
+
+    <div>
+      <h4 id= "selected_public" style= "display: inline-block; width: 650px; height: 34px; border: solid 5px #236B8E; text-align: center; vertical-align: middle; line-height: 25px;">
+        Please select a public topic
+      </h4>
+      <h4 id = "selected_news" style="display: inline-block; width: 650px; height: 34px; border: solid 5px #236B8E; text-align: center; vertical-align: middle; line-height: 25px;">
+        Please select a news topic
+      </h4>
+      </div>
+      
+      <div>
+      <input name="updateButton" 
+           type="button" 
+           value="Compare Sentiments" 
+            class="btn btn-primary btn-large active"
+           onclick="update_line()" />    
+           <!--change this-->
+</div>
+    
+    <br>
+    <br>
+    
+
+    
+    
+ <div id="chartContainer" style="height: 360px; width: 75%; text-align: center; margin:auto;">
+</div>
+</div>
+
+
+<div id="my-visualisation">
+
+<script type="text/javascript">
+
+          var selected_news = "", selected_public = "";  //variables to make the brush and link happen.
+          
+          
+
+                var svg = d3.select("#svg1"),
+                    margin = 20,
+                    diameter = +svg.attr("width"),
+                    g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+                
+                var color = d3.scaleLinear()
+                    .domain([-1, 5])
+                    .range(["hsl(200,80%,80%)", "hsl(128,30%,90%)"])
+                    .interpolate(d3.interpolateHcl);
+                
+                var pack = d3.pack()
+                    .size([diameter - margin, diameter - margin])
+                    .padding(2);
+                
+                d3.json("flare.json", function(error, root) {
+                  if (error) throw error;
+                
+                  root = d3.hierarchy(root)
+                      .sum(function(d) { return d.size; })
+                      .sort(function(a, b) { return b.value - a.value; });
+                
+                  var focus = root,
+                      nodes = pack(root).descendants(),
+                      view;
+                
+                  var circle = g.selectAll("circle")
+                    .data(nodes)
+                    .enter().append("circle")
+                      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+                      .style("fill", function(d,i) { 
+                      	console.log(d.data.name);
+                      	return d.data.color ? d.data.color : "ff99bb"; })
+                      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+                
+                  var text = g.selectAll("text")
+                    .data(nodes)
+                    .enter().append("text")
+                      .attr("class", "label")
+                      .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+                      .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+                      .style("font-size", function(d){ return d.parent === root ? "12px" : "24px";})
+                 	      .text(function(d) { return d.data.name; });
+                
+                  var node = g.selectAll("circle,text");
+                
+                  svg
+                      .style("background", "#ffffff ") // change color of the square
+                      .on("click", function() { 
+                      zoom(root); });
+                
+                  zoomTo([root.x, root.y, root.r * 2 + margin]);
+                
+                  function zoom(d) {
+                    var focus0 = focus; focus = d;
+                    
+                   if (d.parent !== null){
+                   console.log(d.parent.data.name);
+                   selected_public  = d.parent.data.name;
+                   document.getElementById('selected_public').innerHTML = selected_public;
+                   };
+                
+                    var transition = d3.transition()
+                        .duration(d3.event.altKey ? 7500 : 750)
+                        .tween("zoom", function(d) {
+                          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+                          return function(t) { zoomTo(i(t)); };
+                        });
+                
+                    transition.selectAll("text.label")
+                      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+                        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+                        .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                        .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                  }
+                
+                  function zoomTo(v) {
+                    var k = diameter / v[2]; view = v;
+                    node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+                    circle.attr("r", function(d) { return d.r * k; });
+                  }
+                });
+
+                
+///////////////////////////////////////////////////////SVG2///////////////////////////////////////////////////////////////                
+// ------------------------------------------------------------------------------------------------
+                var svg2 = d3.select("#svg2"),
+                    margin2 = 20,
+                    diameter2 = +svg2.attr("width"),
+                    g2 = svg2.append("g").attr("transform", "translate(" + diameter2 / 2 + "," + diameter2 / 2 + ")");
+                
+                var color2 = d3.scaleLinear()
+                    .domain([-1, 5])
+                    .range(["hsl(200,80%,80%)", "hsl(128,30%,90%)"])
+                    .interpolate(d3.interpolateHcl);
+                
+                var pack2 = d3.pack()
+                    .size([diameter2 - margin2, diameter2 - margin2])
+                    .padding(2);
+                
+                d3.json("flare2.json", function(error, root2) {
+                  if (error) throw error;
+                
+                  root2 = d3.hierarchy(root2)
+                      .sum(function(d) { return d.size; })
+                      .sort(function(a, b) { return b.value - a.value; });
+                
+                  var focus2 = root2,
+                      nodes2 = pack(root2).descendants(),
+                      view;
+                
+                  var circle2 = g2.selectAll("circle")
+                    .data(nodes2)
+                    .enter().append("circle")
+                      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+                      .style("fill", function(d,i) { 
+                      	console.log(d.data.name);
+                      		return d.data.color ? d.data.color : "#ddccff "; })
+                      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+                
+                  var text2 = g2.selectAll("text")
+                    .data(nodes2)
+                    .enter().append("text")
+                      .attr("class", "label2")
+                      .style("fill-opacity", function(d) { return d.parent === root2 ? 1 : 0; })
+                      .style("display", function(d) { return d.parent === root2 ? "inline" : "none"; })
+                      .style("font-size", function(d){ return d.parent === root2 ? "12px" : "24px";})
+                 	      .text(function(d) { return d.data.name; });
+                
+                  var node2 = g2.selectAll("circle,text");
+                
+                  svg2
+                      .style("background", "#ffffff ") // change color of the square
+                      .on("click", function() { zoom(root2); });
+                
+                  zoomTo([root2.x, root2.y, root2.r * 2 + margin2]);
+                
+                  function zoom(d) {
+                    var focus1 = focus; focus = d;
+                    
+                    if (d.parent !== null){
+                   console.log(d.parent.data.name);
+                   selected_news = d.parent.data.name;
+                   document.getElementById('selected_news').innerHTML = selected_news;
+                   }
+                
+                    var transition2 = d3.transition()
+                        .duration(d3.event.altKey ? 7500 : 750)
+                        .tween("zoom", function(d) {
+                          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin2]);
+                          return function(t) { zoomTo(i(t)); };
+                        });
+                
+                    transition2.selectAll("text.label2")
+                      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+                        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+                        .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                        .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                  }
+                
+                  function zoomTo(v) {
+                    var k = diameter2 / v[2]; view = v;
+                    node2.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+                    circle2.attr("r", function(d) { return d.r * k; });
+                  }
+                });
+                
+                
+  //////////////////////////////////////////////////////UPDATE_MAIN_NEWS////////////////////////////////////////////////////////////////////////////////////////////
+  //////-------------------------------------------------------------------------------------------------------------------------------------------/////////////     
+       
+       
+        function updateData_Main() {
+                
+                
+                document.getElementById("news").innerHTML = "NEWS";
+          
+                var svg2 = d3.select("#svg2"),
+                    margin2 = 20,
+                    diameter2 = +svg2.attr("width"),
+                    g2 = svg2.append("g").attr("transform", "translate(" + diameter2 / 2 + "," + diameter2 / 2 + ")");
+                
+                
+                
+                d3.json("flare2.json", function(error, root2) {
+                  if (error) throw error;
+                
+                  root2 = d3.hierarchy(root2)
+                      .sum(function(d) { return d.size; })
+                      .sort(function(a, b) { return b.value - a.value; });
+                
+                  var focus2 = root2,
+                      nodes2 = pack(root2).descendants(),
+                      view;
+                
+                  var circle2 = g2.selectAll("circle")
+                    .data(nodes2)
+                    .enter().append("circle")
+                      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+                      .style("fill", function(d,i) { 
+                      	console.log(d.data.name);
+                      		return d.data.color ? d.data.color : "#ddccff "; })
+                      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+                
+                  var text2 = g2.selectAll("text")
+                    .data(nodes2)
+                    .enter().append("text")
+                      .attr("class", "label2")
+                      .style("fill-opacity", function(d) { return d.parent === root2 ? 1 : 0; })
+                      .style("display", function(d) { return d.parent === root2 ? "inline" : "none"; })
+                      .style("font-size", function(d){ return d.parent === root2 ? "12px" : "24px";})
+                 	      .text(function(d) { return d.data.name; });
+                
+                  var node2 = g2.selectAll("circle,text");
+                
+                  svg2
+                      .style("background", "#ffffff ") // change color of the square
+                      .on("click", function() { zoom(root2); });
+                
+                  zoomTo([root2.x, root2.y, root2.r * 2 + margin2]);
+                
+                  function zoom(d) {
+                    var focus1 = focus; focus = d;
+                
+                    var transition2 = d3.transition()
+                        .duration(d3.event.altKey ? 7500 : 750)
+                        .tween("zoom", function(d) {
+                          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin2]);
+                          return function(t) { zoomTo(i(t)); };
+                        });
+                
+                    transition2.selectAll("text.label2")
+                      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+                        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+                        .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                        .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                  }
+                
+                  function zoomTo(v) {
+                    var k = diameter2 / v[2]; view = v;
+                    node2.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+                    circle2.attr("r", function(d) { return d.r * k; });
+                  }
+                });
+        }
+              
+              
+              
+              //////////////////////////////////////////////////////UPDATE CHANNEL1////////////////////////////////////////////////////////////////////////////////////////////
+  //////-------------------------------------------------------------------------------------------------------------------------------------------/////////////     
+       
+       
+        function updateData_channel1() {
+          
+          
+          
+          
+          document.getElementById("news").innerHTML = "CHANNEL 1";
+          
+          
+                var svg2 = d3.select("#svg2"),
+                    margin2 = 20,
+                    diameter2 = +svg2.attr("width"),
+                    g2 = svg2.append("g").attr("transform", "translate(" + diameter2 / 2 + "," + diameter2 / 2 + ")");
+                
+                
+                
+                d3.json("channel1.json", function(error, root2) {
+                  if (error) throw error;
+                
+                  root2 = d3.hierarchy(root2)
+                      .sum(function(d) { return d.size; })
+                      .sort(function(a, b) { return b.value - a.value; });
+                
+                  var focus2 = root2,
+                      nodes2 = pack(root2).descendants(),
+                      view;
+                
+                  var circle2 = g2.selectAll("circle")
+                    .data(nodes2)
+                    .enter().append("circle")
+                      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+                      .style("fill", function(d,i) { 
+                      	console.log(d.data.name);
+                      		return d.data.color ? d.data.color : "#ddccff "; })
+                      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+                
+                  var text2 = g2.selectAll("text")
+                    .data(nodes2)
+                    .enter().append("text")
+                      .attr("class", "label2")
+                      .style("fill-opacity", function(d) { return d.parent === root2 ? 1 : 0; })
+                      .style("display", function(d) { return d.parent === root2 ? "inline" : "none"; })
+                      .style("font-size", function(d){ return d.parent === root2 ? "12px" : "24px";})
+                 	      .text(function(d) { return d.data.name; });
+                
+                  var node2 = g2.selectAll("circle,text");
+                
+                  svg2
+                      .style("background", "#ffffff ") // change color of the square
+                      .on("click", function() { zoom(root2); });
+                
+                  zoomTo([root2.x, root2.y, root2.r * 2 + margin2]);
+                
+                  function zoom(d) {
+                    var focus1 = focus; focus = d;
+                    
+                    if (d.parent !== null){
+                   console.log(d.parent.data.name);
+                   selected_news = d.parent.data.name;
+                   document.getElementById('selected_news').innerHTML = selected_news;
+                   }
+                
+                
+                    var transition2 = d3.transition()
+                        .duration(d3.event.altKey ? 7500 : 750)
+                        .tween("zoom", function(d) {
+                          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin2]);
+                          return function(t) { zoomTo(i(t)); };
+                        });
+                
+                    transition2.selectAll("text.label2")
+                      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+                        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+                        .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                        .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                  }
+                
+                  function zoomTo(v) {
+                    var k = diameter2 / v[2]; view = v;
+                    node2.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+                    circle2.attr("r", function(d) { return d.r * k; });
+                  }
+                });
+        }    
+              
+              //////////////////////////////////////////////////////UPDATE CHANNEL2////////////////////////////////////////////////////////////////////////////////////////////
+  //////-------------------------------------------------------------------------------------------------------------------------------------------/////////////     
+       
+       
+        function updateData_channel2() {
+          
+          document.getElementById("news").innerHTML = "CHANNEL 2";
+          
+          
+                var svg2 = d3.select("#svg2"),
+                    margin2 = 20,
+                    diameter2 = +svg2.attr("width"),
+                    g2 = svg2.append("g").attr("transform", "translate(" + diameter2 / 2 + "," + diameter2 / 2 + ")");
+                
+                
+                
+                d3.json("channel2.json", function(error, root2) {
+                  if (error) throw error;
+                
+                  root2 = d3.hierarchy(root2)
+                      .sum(function(d) { return d.size; })
+                      .sort(function(a, b) { return b.value - a.value; });
+                
+                  var focus2 = root2,
+                      nodes2 = pack(root2).descendants(),
+                      view;
+                
+                  var circle2 = g2.selectAll("circle")
+                    .data(nodes2)
+                    .enter().append("circle")
+                      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+                      .style("fill", function(d,i) { 
+                      	console.log(d.data.name);
+                      		return d.data.color ? d.data.color : "#ddccff "; })
+                      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+                
+                  var text2 = g2.selectAll("text")
+                    .data(nodes2)
+                    .enter().append("text")
+                      .attr("class", "label2")
+                      .style("fill-opacity", function(d) { return d.parent === root2 ? 1 : 0; })
+                      .style("display", function(d) { return d.parent === root2 ? "inline" : "none"; })
+                      .style("font-size", function(d){ return d.parent === root2 ? "12px" : "24px";})
+                 	      .text(function(d) { return d.data.name; });
+                
+                  var node2 = g2.selectAll("circle,text");
+                
+                  svg2
+                      .style("background", "#ffffff ") // change color of the square
+                      .on("click", function() { zoom(root2); });
+                
+                  zoomTo([root2.x, root2.y, root2.r * 2 + margin2]);
+                
+                  function zoom(d) {
+                    var focus1 = focus; focus = d;
+                    
+                    if (d.parent !== null){
+                   console.log(d.parent.data.name);
+                   selected_news = d.parent.data.name;
+                   document.getElementById('selected_news').innerHTML = selected_news;
+                   }
+                
+                    var transition2 = d3.transition()
+                        .duration(d3.event.altKey ? 7500 : 750)
+                        .tween("zoom", function(d) {
+                          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin2]);
+                          return function(t) { zoomTo(i(t)); };
+                        });
+                
+                    transition2.selectAll("text.label2")
+                      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+                        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+                        .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                        .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                  }
+                
+                  function zoomTo(v) {
+                    var k = diameter2 / v[2]; view = v;
+                    node2.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+                    circle2.attr("r", function(d) { return d.r * k; });
+                  }
+                });
+              
+              
+        }    
+              
+              //////////////////////////////////////////////////////UPDATE CHANNEL3////////////////////////////////////////////////////////////////////////////////////////////
+  //////-------------------------------------------------------------------------------------------------------------------------------------------/////////////     
+       
+       
+        function updateData_channel3() {
+          
+          document.getElementById("news").innerHTML = "CHANNEL 3";
+          
+          
+                var svg2 = d3.select("#svg2"),
+                    margin2 = 20,
+                    diameter2 = +svg2.attr("width"),
+                    g2 = svg2.append("g").attr("transform", "translate(" + diameter2 / 2 + "," + diameter2 / 2 + ")");
+                
+                
+                
+                d3.json("channel3.json", function(error, root2) {
+                  if (error) throw error;
+                
+                  root2 = d3.hierarchy(root2)
+                      .sum(function(d) { return d.size; })
+                      .sort(function(a, b) { return b.value - a.value; });
+                
+                  var focus2 = root2,
+                      nodes2 = pack(root2).descendants(),
+                      view;
+                
+                  var circle2 = g2.selectAll("circle")
+                    .data(nodes2)
+                    .enter().append("circle")
+                      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+                      .style("fill", function(d,i) { 
+                      	console.log(d.data.name);
+                      		return d.data.color ? d.data.color : "#ddccff "; })
+                      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+                
+                  var text2 = g2.selectAll("text")
+                    .data(nodes2)
+                    .enter().append("text")
+                      .attr("class", "label2")
+                      .style("fill-opacity", function(d) { return d.parent === root2 ? 1 : 0; })
+                      .style("display", function(d) { return d.parent === root2 ? "inline" : "none"; })
+                      .style("font-size", function(d){ return d.parent === root2 ? "12px" : "24px";})
+                 	      .text(function(d) { return d.data.name; });
+                
+                  var node2 = g2.selectAll("circle,text");
+                
+                  svg2
+                      .style("background", "#ffffff ") // change color of the square
+                      .on("click", function() { zoom(root2); });
+                
+                  zoomTo([root2.x, root2.y, root2.r * 2 + margin2]);
+                
+                  function zoom(d) {
+                    var focus1 = focus; focus = d;
+                    
+                    if (d.parent !== null){
+                   console.log(d.parent.data.name);
+                   selected_news = d.parent.data.name;
+                   document.getElementById('selected_news').innerHTML = selected_news;
+                   }
+                
+                    var transition2 = d3.transition()
+                        .duration(d3.event.altKey ? 7500 : 750)
+                        .tween("zoom", function(d) {
+                          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin2]);
+                          return function(t) { zoomTo(i(t)); };
+                        });
+                
+                    transition2.selectAll("text.label2")
+                      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+                        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+                        .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                        .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                  }
+                
+                  function zoomTo(v) {
+                    var k = diameter2 / v[2]; view = v;
+                    node2.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+                    circle2.attr("r", function(d) { return d.r * k; });
+                  }
+                });
+              
+        }   
+              
+              
+              //////////////////////////////////////////////////////UPDATE_CHANNEL4////////////////////////////////////////////////////////////////////////////////////////////
+  //////-------------------------------------------------------------------------------------------------------------------------------------------/////////////     
+       
+       
+        function updateData_channel4() {
+          
+          document.getElementById("news").innerHTML = "CHANNEL 4";
+          
+          
+                var svg2 = d3.select("#svg2"),
+                    margin2 = 20,
+                    diameter2 = +svg2.attr("width"),
+                    g2 = svg2.append("g").attr("transform", "translate(" + diameter2 / 2 + "," + diameter2 / 2 + ")");
+                
+                
+                
+                d3.json("channel4.json", function(error, root2) {
+                  if (error) throw error;
+                
+                  root2 = d3.hierarchy(root2)
+                      .sum(function(d) { return d.size; })
+                      .sort(function(a, b) { return b.value - a.value; });
+                
+                  var focus2 = root2,
+                      nodes2 = pack(root2).descendants(),
+                      view;
+                
+                  var circle2 = g2.selectAll("circle")
+                    .data(nodes2)
+                    .enter().append("circle")
+                      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+                      .style("fill", function(d,i) { 
+                      	console.log(d.data.name);
+                      		return d.data.color ? d.data.color : "#ddccff "; })
+                      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+                
+                  var text2 = g2.selectAll("text")
+                    .data(nodes2)
+                    .enter().append("text")
+                      .attr("class", "label2")
+                      .style("fill-opacity", function(d) { return d.parent === root2 ? 1 : 0; })
+                      .style("display", function(d) { return d.parent === root2 ? "inline" : "none"; })
+                      .style("font-size", function(d){ return d.parent === root2 ? "12px" : "24px";})
+                 	      .text(function(d) { return d.data.name; });
+                
+                  var node2 = g2.selectAll("circle,text");
+                
+                  svg2
+                      .style("background", "#ffffff ") // change color of the square
+                      .on("click", function() { zoom(root2); });
+                
+                  zoomTo([root2.x, root2.y, root2.r * 2 + margin2]);
+                
+                  function zoom(d) {
+                    var focus1 = focus; focus = d;
+                    
+                    if (d.parent !== null){
+                   console.log(d.parent.data.name);
+                   selected_news = d.parent.data.name;
+                   document.getElementById('selected_news').innerHTML = selected_news;
+                   }
+                
+                    var transition2 = d3.transition()
+                        .duration(d3.event.altKey ? 7500 : 750)
+                        .tween("zoom", function(d) {
+                          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin2]);
+                          return function(t) { zoomTo(i(t)); };
+                        });
+                
+                    transition2.selectAll("text.label2")
+                      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+                        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+                        .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                        .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                  }
+                
+                  function zoomTo(v) {
+                    var k = diameter2 / v[2]; view = v;
+                    node2.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+                    circle2.attr("r", function(d) { return d.r * k; });
+                  }
+                });
+          
+}
+
+//////////////////////////////////////////////////////////////////////////LINE CHART///////////////////////////////////////////////////////////////////
+
+              
+              // width= 400;
+              // height=400;
+              
+              // var parseDate = d3.timeParse("%Y-%m-%d");
+              
+              // var x3 = d3.scaleTime()
+              //     .range([0, width]);
+              
+              // var y3 = d3.scaleLinear()
+              //     .range([height, 0]);
+            
+              
+              // var color3 = d3.scaleOrdinal(d3.schemeCategory10);
+              
+              
+              // var xAxis = d3.axisBottom(x3)
+              //         .tickFormat(function(d){ return d.x;});
+              
+              
+              // var yAxis = d3.axisLeft(y3);
+              
+              // // var xAxis3 = d3.svg.axis()
+              // //     .scale(x3)
+              // //     .ticks(5)
+              // //     .innerTickSize(15)
+              // //     .outerTickSize(0)
+              // //     .orient("bottom");
+              
+              // // var yAxis3 = d3.svg.axis()
+              // //     .scale(y3)
+              // //     .tickFormat(function(d) { return d + "%";})
+              // //     .ticks(5)
+              // //     .innerTickSize(15)
+              // //     .outerTickSize(0)
+              // //     .orient("left");
+              
+              // var line3 = d3.svg.line()
+              //     .interpolate("basis")
+              //     .x(function(d) { return x3(d.date); })
+              //     .y(function(d) { return y3(d.price); });
+              
+              
+              // var svg3 = d3.select("#svg3")
+              //   .append("g");
+              
+              // d3.tsv("data-line.tsv", function(error, data) {
+              //   color3.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
+              //   console.log(data);
+                
+                
+              //   data.forEach(function(d) {
+              //     console.log(d);
+              //     d.date = parseDate(d.date);
+              //   });
+              
+              //   var companies = color3.domain().map(function(name) {
+              //     return {
+              //       name: name,
+              //       values: data.map(function(d) {
+              //         return {date: d.date, price: +d[name]};
+              //       })
+              //     };
+              //   });
+              
+              
+              //   x3.domain(d3.extent(data, function(d) { return d.date; }));
+              
+              //   y3.domain([
+              //     d3.min(companies, function(c) { return d3.min(c.values, function(v) { return v.price; }); }),
+              //     d3.max(companies, function(c) { return d3.max(c.values, function(v) { return v.price; }); })
+              //   ]);
+              
+              //   svg3.append("g")
+              //       .attr("class", "x axis")
+              //       .attr("transform", "translate(0," + height + ")")
+              //       .call(xAxis3);
+              
+              //   svg3.append("g")
+              //       .attr("class", "y axis")
+              //       .call(yAxis3);
+              
+              
+              //   svg3.append("line")
+              //         .attr(
+              //         {
+              //             "class":"horizontalGrid",
+              //             "x1" : 0,
+              //             "x2" : 400,    //NEED TO CHECK THIS!!
+              //             "y1" : y3(0),
+              //             "y2" : y3(0),
+              //             "fill" : "none",
+              //             "shape-rendering" : "crispEdges",
+              //             "stroke" : "black",
+              //             "stroke-width" : "1px",
+              //             "stroke-dasharray": ("3, 3")
+              //         });
+              
+              
+              //   var company = svg3.selectAll(".company")
+              //       .data(companies)
+              //     .enter().append("g")
+              //       .attr("class", "company");
+              
+              
+              
+              //   var path3 = svg3.selectAll(".company").append("path")
+              //       .attr("class", "line")
+              //       .attr("d", function(d) { return line(d.values); })
+              //       .style("stroke", function(d) { if (d.name == "Airbus") 
+              //                                         {return "rgb(000,255,000)"}
+              //                                       else {return "#000";}
+              //                                         });
+              
+              
+              
+              //   //var totalLength = path.node().getTotalLength();
+              // /*
+              // console.log(path);
+              // console.log(path.node());
+              // console.log(path[0][0]);
+              // console.log(path[0][1]);
+              // */
+              // var totalLength3 = [path3[0][0].getTotalLength(), path3[0][1].getTotalLength()];
+              
+              // console.log(totalLength3);
+              
+              
+              //   d3.select(path3[0][0])
+              //       .attr("stroke-dasharray", totalLength3[0] + " " + totalLength3[0] ) 
+              //       .attr("stroke-dashoffset", totalLength3[0])
+              //       .transition()
+              //         .duration(5000)
+              //         .ease("linear")
+              //         .attr("stroke-dashoffset", 0);
+              
+              //   d3.select(path3[0][1])
+              //       .attr("stroke-dasharray", totalLength3[1] + " " + totalLength3[1] )
+              //       .attr("stroke-dashoffset", totalLength3[1])
+              //       .transition()
+              //         .duration(5000)
+              //         .ease("linear")
+              //         .attr("stroke-dashoffset", 0);
+              
+              // });
+        
+        //////////////////////////////////////////////////////////////////////////////////////TRIAL2////////////////////////////////////////////////////////////////////////////////////
+        
+              //     var svg3 = d3.select("#svg3"),
+              //     margin3 = {top: 20, right: 80, bottom: 30, left: 50},
+              //     width = svg3.attr("width") - margin3.left - margin3.right,
+              //     height = svg3.attr("height") - margin3.top - margin3.bottom,
+              //     g3 = svg3.append("g").attr("transform", "translate(" + margin3.left + "," + margin3.top + ")");
+              
+              // var parseTime = d3.timeParse("%Y%m%d");
+              
+              // var x3 = d3.scaleTime().range([0, width]),
+              //     y3 = d3.scaleLinear().range([height, 0]),
+              //     z3 = d3.scaleOrdinal(d3.schemeCategory10);
+              
+              // var line3 = d3.line()
+              //     .curve(d3.curveBasis)
+              //     .x(function(d) { return x3(d.date); })
+              //     .y(function(d) { return y3(d.temperature); });
+              
+              // d3.tsv("v4-line-data.tsv", type, function(error, data) {
+              //   if (error) throw error;
+              
+              //   var cities = data.columns.slice(1).map(function(id) {
+              //     return {
+              //       id: id,
+              //       values: data.map(function(d) {
+              //         return {date: d.date, temperature: d[id]};
+              //       })
+              //     };
+              //   });
+              
+              // // console.log(cities);
+              
+              
+              
+              //   x3.domain(d3.extent(data, function(d) { return d.date; }));
+              
+              //   y3.domain([
+              //     d3.min(cities, function(c) { return d3.min(c.values, function(d) { return d.temperature; }); }),
+              //     d3.max(cities, function(c) { return d3.max(c.values, function(d) { return d.temperature; }); })
+              //   ]);
+              
+              //   z3.domain(cities.map(function(c) { return c.id; }));
+              
+              //   g3.append("g")
+              //       .attr("class", "axis axis--x")
+              //       .attr("transform", "translate(0," + height + ")")
+              //       .call(d3.axisBottom(x3));
+              
+              //   g3.append("g")
+              //       .attr("class", "axis axis--y")
+              //       .call(d3.axisLeft(y3))
+              //     .append("text")
+              //       .attr("transform", "rotate(-90)")
+              //       .attr("y", 6)
+              //       .attr("dy", "0.71em")
+              //       .attr("fill", "#000")
+              
+              //   var city = g3.selectAll(".city")
+              //     .data(cities)
+              //     .enter().append("g")
+              //       .attr("class", "city");
+              
+              //   city.append("path")
+              //       .attr("class", "line")
+              //       .attr("d", function(d) { return line3(d.values); })
+                    
+              // //       .style("stroke", function(d) { if (d.name == "Airbus") 
+              // // //                                         {return "rgb(000,255,000)"}
+              // // //                                       else {return "#000";}
+              // // //                                         });
+                    
+                    
+              //       .style("stroke", function(d) { 
+                      
+              //         console.log("yoooo", d)
+              //         return z3(d.id);
+              //         });
+              
+              //   city.append("text")
+              //       .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+              //       .attr("transform", function(d) { return "translate(" + x3(d.value.date) + "," + y3(d.value.temperature) + ")"; })
+              //       .attr("x", 3)
+              //       .attr("dy", "0.35em")
+              //       .style("font", "10px sans-serif")
+              //       .text(function(d) { return d.id; });
+              // });
+              
+              // function type(d, _, columns) {
+              //   d.date = parseTime(d.date);
+              //   for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+              //   return d;
+              // }
+              
+              
+    ///////////////////////////////////////////////////////////////////////////////CHART.JS TRIAL/////////////////////////////////////////////////////////////////////////////////////////////////
+function update_line(){
+  
+  if (selected_public == ''){
+    alert("No topic selected from Public section");
+  }
+  else if(selected_news == ''){
+    alert("No topic selected from News/Channel section");
+  }
+
+  
+  data1 = selected_news + '.json';
+  data2 = selected_public + '.json';
+  
+
+try{
+  
+  var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "theme3",
+            title: {
+                text: "Sentiment Analysis"
+            },
+            animationEnabled: true,
+            animationDuration: 2000,
+            toolTip: {
+                animationEnabled: true,
+                shared: true
+            },
+            data: []
+        });
+        
+        
+//function update_line(){
+
+
+var dataSeries1, dataSeries2;
+
+$.when(
+    
+    $.getJSON(data1, function(result) {
+      dataSeries1 = {
+                        type: "spline",
+                        showInLegend: true,
+                        name: "News",
+                        color: "rgba(221, 204, 255)",
+                        dataPoints: result
+                    }
+    }),
+    $.getJSON(data2, function(result) {
+        dataSeries2 = {
+          type: "spline",
+          showInLegend: true,
+          name: "Public",
+          color: "rgba(255, 153, 187)",
+          dataPoints: result
+        }
+    })
+ ).then(function	()	{ //).done(function	()	{
+ 		chart.options.data.push(dataSeries1);
+    chart.options.data.push(dataSeries2);
+    chart.render();
+ }); 
+}
+
+catch(error){
+    window.alert(error);  
+}
+
+}
+        
+</script>
+
+
+</div>
+
+
+</body>  
+</html> 

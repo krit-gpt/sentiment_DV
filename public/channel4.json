@@ -1,0 +1,217 @@
+{
+ "name": "flare",
+ "color": "#ffffff", 
+ "prop": "change the color of the largest circle -- outer one",
+ "children": [
+
+
+
+  {
+   "name": "Reconstruction",
+   "prop": "change the color of the outer line -- each circle has two lines -- outerline",
+  
+   "children": [
+    {
+     "name": "cluster",
+      
+     "children": [
+      {"name": "Floods", "size": 9938}  
+     ]
+    }
+   ]
+  },
+
+
+
+  {
+   "name": "Taylor Swift",
+   "children": [
+    {
+     "name": "cluster",
+      
+     "children": [
+      {"name": "Negative: 89%", "size": 12938}
+     ]
+    }
+   ]
+  },
+
+
+  {
+   "name": "Flu",
+   "children": [
+    {
+     "name": "cluster",
+      
+     "children": [
+      {"name": "Flu", "size": 3938}
+     ]
+    }
+   ]
+  },
+
+  {
+   "name": "Pride of Texas",
+   "children": [
+    {
+     "name": "cluster",
+     
+     "children": [
+      {"name": "Harvey", "size": 12938}
+     ]
+    }
+   ]
+  },
+
+  {
+   "name": "Drunk Driving",
+   "children": [
+    {
+     "name": "cluster",
+     
+     "children": [
+      {"name": "Presidents", "size": 19938}
+     ]
+    }
+   ]
+  },
+
+  {
+   "name": "Hurricane Concert",
+   "children": [
+    {
+     "name": "cluster",
+     
+     "children": [
+      {"name": "Positive: 95%", "size": 5938}
+     ]
+    }
+   ]
+  },
+
+
+  {
+   "name": "Aggies vs Longhorns",
+   "children": [
+    {
+     "name": "cluster",
+     
+     "children": [
+      {"name": "Aggies Win!", "size": 6938}
+     ]
+    }
+   ]
+  },
+
+
+  {
+   "name": "Rain",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 6938}
+     ]
+    }
+   ]
+  },
+  
+  {
+   "name": "Fund Raiser",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 2938}
+     ]
+    }
+   ]
+  },
+  
+  {
+   "name": "Youtube",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 1938}
+     ]
+    }
+   ]
+  },
+  
+  {
+   "name": "India Trip",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 938}
+     ]
+    }
+   ]
+  },
+  
+  {
+   "name": "Governor Brett Abott",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 6938}
+     ]
+    }
+   ]
+  },
+  
+  {
+   "name": "Football",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 2938}
+     ]
+    }
+   ]
+  },
+  
+  {
+   "name": "Kansas Indictment",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 1238}
+     ]
+    }
+   ]
+  },
+  
+  {
+   "name": "Barbara Bush",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 1938}
+     ]
+    }
+   ]
+  }
+
+
+
+
+
+
+ ]
+}

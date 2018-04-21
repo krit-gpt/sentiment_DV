@@ -1,0 +1,195 @@
+{
+ "name": "flare",
+ "color": "#ffffff", 
+ "prop": "change the color of the largest circle -- outer one",
+ "children": [
+
+
+
+  {
+   "name": "Floods",
+   "topic":0,
+   "prop": "change the color of the outer line -- each circle has two lines -- outerline",
+  
+   "children": [
+    {
+     "name": "cluster",
+      
+     "children": [
+      {"name": "Floods", "size": 3800}  
+     ]
+    }
+   ]
+  },
+
+
+
+  {
+   "name": "Shootings",
+   "children": [
+    {
+     "name": "cluster",
+      
+     "children": [
+      {"name": "shooting", "size": 5000}
+     ]
+    }
+   ]
+  },
+
+
+  {
+   "name": "Flu",
+   "children": [
+    {
+     "name": "cluster",
+      
+     "children": [
+      {"name": "Flu", "size": 1938}
+     ]
+    }
+   ]
+  },
+
+  {
+   "name": "Hurricane",
+   "children": [
+    {
+     "name": "cluster",
+     
+     "children": [
+      {"name": "Harvey", "size": 2500}
+     ]
+    }
+   ]
+  },
+
+  {
+   "name": "5 Presidents",
+   "children": [
+    {
+     "name": "cluster",
+     
+     "children": [
+      {"name": "Presidents", "size": 5000}
+     ]
+    }
+   ]
+  },
+
+  {
+   "name": "Concert",
+   "children": [
+    {
+     "name": "cluster",
+     
+     "children": [
+      {"name": "Hurricane Concert", "size": 3399}
+     ]
+    }
+   ]
+  },
+
+
+  {
+   "name": "Aggies vs Longhorns",
+   "children": [
+    {
+     "name": "cluster",
+     
+     "children": [
+      {"name": "Aggies Win!", "size": 8538}
+     ]
+    }
+   ]
+  },
+
+
+  {
+   "name": "Rain",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 738}
+     ]
+    }
+   ]
+  },
+  
+   {
+   "name": "iPhone",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 138}
+     ]
+    }
+   ]
+  },
+  
+  
+   {
+   "name": "Oscars",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 458}
+     ]
+    }
+   ]
+  },
+  
+   {
+   "name": "Breaking Bad",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 2098}
+     ]
+    }
+   ]
+  },
+  
+   {
+   "name": "Blue",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 987}
+     ]
+    }
+   ]
+  },
+  
+   {
+   "name": "Mexico",
+   "children": [
+    {
+     "name": "Humidity",
+     
+     "children": [
+      {"name": "shooting", "size": 1038}
+     ]
+    }
+   ]
+  }
+  
+  
+
+
+
+
+
+
+ ]
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+window.onload = function () {
+
+  
+  var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "theme1",
+            title: {
+                text: "Statistics"
+            },
+            animationEnabled: true,
+            animationDuration: 1500,
+            toolTip: {
+                animationEnabled: true,
+                shared: true
+            },
+            data: []
+        });
+
+var dataSeries1, dataSeries2;
+$.when(
+    $.getJSON("https://api.myjson.com/bins/3ax15", function(result) {
+      dataSeries1 = {
+                        type: "spline",
+                        showInLegend: true,
+                        name: "Likes",
+                        // color: "rgba(54,158,173,.6)",
+                        dataPoints: result
+                    }
+    }),
+    $.getJSON("https://api.myjson.com/bins/1krdl", function(result) {
+        dataSeries2 = {
+          type: "spline",
+          showInLegend: true,
+          name: "Dislikes",
+          dataPoints: result
+        }
+    })
+ ).then(function	()	{ //).done(function	()	{
+ 		chart.options.data.push(dataSeries1);
+    chart.options.data.push(dataSeries2);
+    chart.render();
+ }); 
+
+
+
+
+
+
+}
+</script>
+</head>
+  
+  
+<body>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</body>
+</html>
