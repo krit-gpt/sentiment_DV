@@ -1,12 +1,12 @@
 {
   "name": "mochi",
   "version": "1.0.0",
-  "description": "Amazon Alexa Application",
+  "description": "Sentiment Application",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Team Mochi",
+  "author": "Krit+Piyush",
   "license": "ISC",
   "dependencies": {
     "d3": "^4.13.0",
@@ -14,5 +14,11 @@
     "express": "^4.16.2",
     "express-html": "^1.0.1",
     "path": "^0.12.7"
-  }
+  },
+  "engines": {
+    "node": "6.11.2"
+  },
+  "scripts": {
+  "start": "node app.js"
+}
 }
