@@ -8,14 +8,13 @@
 
   {
    "name": "Floods",
-   "prop": "change the color of the outer line -- each circle has two lines -- outerline",
   
    "children": [
     {
      "name": "Poker",
       
      "children": [
-      {"name": "Floods", "size": 7645}  
+      {"name": "Negative: 77%", "size": 7645}  
      ]
     }
    ]
@@ -24,13 +23,13 @@
 
 
   {
-   "name": "Nationalism",
+   "name": "iPhone X",
    "children": [
     {
      "name": "cluster",
       
      "children": [
-      {"name": "Negative: 89%", "size": 938}
+      {"name": "Neutral: 53%", "size": 938}
      ]
     }
    ]
@@ -38,13 +37,13 @@
 
 
   {
-   "name": "Republics",
+   "name": "Football",
    "children": [
     {
      "name": "cluster",
       
      "children": [
-      {"name": "Flu", "size": 3938}
+      {"name": "Negative: 57%", "size": 3938}
      ]
     }
    ]
@@ -57,33 +56,33 @@
      "name": "cluster",
      
      "children": [
-      {"name": "Harvey", "size": 4938}
+      {"name": "Negative: 75%", "size": 4938}
      ]
     }
    ]
   },
 
   {
-   "name": "5 Presidents",
+   "name": "Obama Care",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Presidents", "size": 9738}
+      {"name": "Positive: 75%", "size": 9738}
      ]
     }
    ]
   },
 
   {
-   "name": "Javascript ",
+   "name": "Trump",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Positive: 95%", "size": 9938}
+      {"name": "Negative: 57%", "size": 9938}
      ]
     }
    ]
@@ -91,13 +90,13 @@
 
 
   {
-   "name": "Aggies vs Longhorns",
+   "name": "Flu",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Aggies Win!", "size": 9938}
+      {"name": "Negative: 65%", "size": 9938}
      ]
     }
    ]

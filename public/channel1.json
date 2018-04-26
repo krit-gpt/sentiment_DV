@@ -7,7 +7,7 @@
 
 
   {
-   "name": "Drunk Teens",
+   "name": "Floods",
    "prop": "change the color of the outer line -- each circle has two lines -- outerline",
   
    "children": [
@@ -15,7 +15,7 @@
      "name": "cluster",
       
      "children": [
-      {"name": "Floods", "size": 13938}  
+      {"name": "Negative: 95%", "size": 13938}  
      ]
     }
    ]
@@ -24,13 +24,13 @@
 
 
   {
-   "name": "Investigation",
+   "name": "Football",
    "children": [
     {
      "name": "cluster",
       
      "children": [
-      {"name": "Negative: 89%", "size": 9938}
+      {"name": "Negative: 52%", "size": 9938}
      ]
     }
    ]
@@ -38,52 +38,52 @@
 
 
   {
-   "name": "Austin Bomber",
+   "name": "Trump",
    "children": [
     {
      "name": "cluster",
       
      "children": [
-      {"name": "Flu", "size": 12938}
+      {"name": "Positive: 75%", "size": 12938}
      ]
     }
    ]
   },
 
   {
-   "name": "Cruz",
+   "name": "Harvey",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Harvey", "size": 2938}
+      {"name": "Negative: 83%", "size": 2938}
      ]
     }
    ]
   },
 
   {
-   "name": "5 Presidents",
+   "name": "Obama Care",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Presidents", "size": 938}
+      {"name": "Negative: 61%", "size": 938}
      ]
     }
    ]
   },
 
   {
-   "name": "Hurricane Concert",
+   "name": "iPhone X",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Positive: 95%", "size": 938}
+      {"name": "Negative: 58%", "size": 938}
      ]
     }
    ]
@@ -91,13 +91,13 @@
 
 
   {
-   "name": "Aggies vs Longhorns",
+   "name": "Shootings",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Aggies Win!", "size": 1938}
+      {"name": "Negative: 65%", "size": 1938}
      ]
     }
    ]
@@ -111,7 +111,7 @@
      "name": "Humidity",
      
      "children": [
-      {"name": "shooting", "size": 438}
+      {"name": "Positive: 64%", "size": 438}
      ]
     }
    ]

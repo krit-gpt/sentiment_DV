@@ -205,34 +205,37 @@
 
 
 <pre id="data1">
-January	February	March	April	name
-87.7	0.29	0.37	18.25	Mexico
-87.5	0.25	0.19	20.54	Natural Earth
-87.4	0.27	0.17	24.2	Winkel II
-86.5	0.23	0.28	19.15	Kavraisky VII
-85	0.26	0.18	23.28	Winkel Tripel
-84.3	0.27	0.19	21.27	Robinson
-83.2	0.25	0.43	16.14	Fahey
-81.9	0.36	0	28.73	Eckert IV
-81.8	0.26	0.24	22.31	Hölzel
-80.4	0.26	0.34	20.41	Wagner VI
-80	0.3	0.29	23.47	Eckert V
+January	February	March	April	May	name
+100	100	100	100	100	-
+40	43	72	81	43	Trump
+94	45	49	28	48	Shootings
+61	30	25	62	77	Flu
+26	87	53	90	47	Obama Care
+59	58	34	39	58	Football
+100	67	98	83	26	Floods
+96	67	10	48	58	Rain
+25	41	85	48	26	Hurricane Harvey
+0	0	0	0	0	-
 </pre>
 
 
 
 
 <pre id="data2">
-Acc. 40º	150% Scale	Areal	Angular	name
-87.7	0.29	0.37	18.25	Rain
-87.5	0.25	0.19	20.54	Natural Earth
-87.4	0.27	0.17	24.2	Winkel II
-86.5	0.23	0.28	19.15	Kavraisky VII
-85	0.26	0.18	23.28	Winkel Tripel
-84.3	0.27	0.19	21.27	Robinson
-83.2	0.25	0.43	16.14	Fahey
-81.9	0.36	0	28.73	Eckert IV
-81.8	0.26	0.24	22.31	Hölzellllll
+January	February	March	April	May	name
+100	100	100	100	100	-
+97	50	52	85	58	Mexico
+66	74	35	42	58	Fashion
+88	74	28	27	95	Guns
+69	31	78	29	62	Rain
+73	84	40	28	52	Football
+79	72	55	91	34	iPhone X
+60	25	74	37	44	Oscars
+57	91	30	27	79	Obama Care
+44	71	44	74	100	Trump
+52	88	21	86	52	Market Share
+34	28	85	62	78	Flu
+0	0	0	0	0	-
 </pre>
 
 
@@ -304,12 +307,12 @@ var margin = {top: 30, right: 40, bottom: 20, left: 200},
 var dimensions = [
   {
     name: "name",
-    scale: d3.scale.ordinal().rangePoints([0, height]),
+    scale: d3.scale.ordinal().rangePoints([height, 0]),
     type: String
   },
   {
     name: "January",
-    scale: d3.scale.linear().range([0, height]),
+    scale: d3.scale.linear().range([height, 0]),
     type: Number
   },
   {
@@ -319,7 +322,7 @@ var dimensions = [
   },
   {
     name: "March",
-    scale: d3.scale.sqrt().range([height, 0]),
+    scale: d3.scale.linear().range([height, 0]),
     type: Number
   },
   {
@@ -430,26 +433,26 @@ var margin2 = {top2: 30, right2: 40, bottom2: 20, left2: 200},
 var dimensions2 = [
   {
     name: "name",
-    scale: d3.scale.ordinal().rangePoints([0, height2]),
+    scale: d3.scale.ordinal().rangePoints([height2, 0]),
     type: String
   },
   {
-    name: "Acc. 40º",
-    scale: d3.scale.linear().range([0, height2]),
-    type: Number
-  },
-  {
-    name: "150% Scale",
+    name: "January",
     scale: d3.scale.linear().range([height2, 0]),
     type: Number
   },
   {
-    name: "Areal",
-    scale: d3.scale.sqrt().range([height2, 0]),
+    name: "February",
+    scale: d3.scale.linear().range([height2, 0]),
     type: Number
   },
   {
-    name: "Angular",
+    name: "March",
+    scale: d3.scale.linear().range([height2, 0]),
+    type: Number
+  },
+  {
+    name: "April",
     scale: d3.scale.linear().range([height2, 0]),
     type: Number
   }
@@ -565,9 +568,8 @@ function update_line(){
   }
 
   
-  data1 = selected_news + '.json';
-  data2 = selected_public + '.json';
-  
+  data1 = "NEWS-" + selected_news + '.json';
+  data2 = "Public-" + selected_public + '.json';
 
 try{
   

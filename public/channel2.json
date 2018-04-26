@@ -7,7 +7,7 @@
 
 
   {
-   "name": "Politics",
+   "name": "Trump",
    "prop": "change the color of the outer line -- each circle has two lines -- outerline",
   
    "children": [
@@ -15,7 +15,7 @@
      "name": "cluster",
       
      "children": [
-      {"name": "Floods", "size": 872}  
+      {"name": "Negative: 85%", "size": 8872}  
      ]
     }
    ]
@@ -38,13 +38,13 @@
 
 
   {
-   "name": "Hats",
+   "name": "Floods",
    "children": [
     {
      "name": "cluster",
       
      "children": [
-      {"name": "Flu", "size": 1293}
+      {"name": "Negative: 86%", "size": 1293}
      ]
     }
    ]
@@ -57,33 +57,33 @@
      "name": "cluster",
      
      "children": [
-      {"name": "Harvey", "size": 100394}
+      {"name": "Negative: 72%", "size": 5394}
      ]
     }
    ]
   },
 
   {
-   "name": "Mexico",
+   "name": "Mexico Wall",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Presidents", "size": 5000}
+      {"name": "Negative: 80%", "size": 5000}
      ]
     }
    ]
   },
 
   {
-   "name": "Wall",
+   "name": "Hollywood",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Positive: 95%", "size": 3438}
+      {"name": "Positive: 76%", "size": 3438}
      ]
     }
    ]
@@ -91,13 +91,13 @@
 
 
   {
-   "name": "Aggies vs Longhorns",
+   "name": "Football",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Aggies Win!", "size": 138}
+      {"name": "Neutral: 89%", "size": 138}
      ]
     }
    ]
@@ -105,13 +105,13 @@
 
 
   {
-   "name": "Roads",
+   "name": "Obama Care",
    "children": [
     {
      "name": "Humidity",
      
      "children": [
-      {"name": "shooting", "size": 2000}
+      {"name": "Positive: 83%", "size": 2000}
      ]
     }
    ]

@@ -1041,9 +1041,9 @@ function update_line(){
   }
 
   
-  data1 = selected_news + '.json';
-  data2 = selected_public + '.json';
-  
+  data1 = document.getElementById("news").innerHTML + "-" + selected_news + '.json';
+  data2 = "Public-" + selected_public + '.json';
+  // console.log(data2)
 
 try{
   
