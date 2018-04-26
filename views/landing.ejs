@@ -8,7 +8,7 @@
              <p></p>
              <p>
                 <a class="btn btn-primary btn-large active" href="/graph">Topic Modelling</a>
-                <a class="btn btn-primary btn-large active" href="/line">Line Graph</a>
+                <a class="btn btn-primary btn-large active" href="/side_bar">Parallel Coordinate Plots</a>
                 <a class="btn btn-primary btn-large active" href="/slide">Slides</a>
                 
              </p>
@@ -16,13 +16,43 @@
          </div>
         
      </header>
-     <!--<div class="container" align="center">-->
-     <!-- <img src="AimDV.PNG" width="1020" height="800"/>-->
-     <!-- </div>-->
+ 
      
-     <div class="container" align="center">
-     <iframe src="https://docs.google.com/document/d/e/2PACX-1vS6_aV3RCvEcc5qTziVNWak4RH5jmEZBoWGjBO_Rr2UqPBXvWQna7y8tf10smEbera42-P9NYvyfen5/pub?embedded=true" frameborder="0" width="1024" height="607"></iframe>
-     </div>
+ <div class="container">
+     <header class="jumbotron vertical-center">
+         <div class="container">
+             <h2>Aim</h2>
+             <h4>Comparison of the concerns raised by the people of Texas against the ones raised by the Texan media houses through visualizations of the findings.</h4>
+             <h2>Methodology</h2>
+             <h4>We collected tweets from the region of Texas, using Twitter API. Tweets were segregated into two portions - from the 3 major news channels
+             of Texas and those of general demography.
+             This essentially gave us two datasets:</h4>
+				<h4><ul>
+					<li>News</li>
+					<li>Public</li>
+				</ul></h4>
+		<h4>We apply Topic Modelling, Bag of Words, Text Mining and Machine Learning techniques on the two sets to define the topics and associated sentiments. This is where the Visualization comes into play, as the two datasets until now have been processed independently and need to be analyzed with respect to each other.
+			</h4>
+			<br>
+			<div style="align-items: center; justify-content:center;">
+			<img src="graph.png" style="width: 75%; align-items: center; justify-content:center;"></img>
+			</div>
+			<br>
+			<h2>Questions we hope to address</h2>
+			<h4>Some important questions we would like to find answers for are:</h4>
+		<h4>	<ul>
+				<li>In a given time frame, are the concerns of both the classes same?</li>
+				<li>Is the sentiment for a given topic at a given time same or different? </li>
+				<li>Change in the sentiment and the topics over time.</li>
+			</ul>
+			</h4>
+            
+             
+         </div>
+        
+     </header>
+   
+     
  </div>
 
 <% include partials/footer %>

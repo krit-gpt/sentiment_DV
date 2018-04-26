@@ -10,105 +10,156 @@
     body {
       margin: 0px;
     }
-    
+
     #parent {
     text-align:center;
     }
-    
+
     svg {
-    font: 20px sans-serif;
+    font: 15px sans-serif;
     }
-    
+
     .background path {
       fill: none;
       stroke: none;
       stroke-width: 15px;
       pointer-events: stroke;
     }
-    
+
     .foreground path {
       fill: none;
       stroke: steelblue;
       stroke-width: 1.5px;
     }
-    
+
     .background2 path {
       fill: none;
       stroke: none;
       stroke-width: 15px;
       pointer-events: stroke;
     }
-    
+
     .foreground2 path {
       fill: none;
       stroke: steelblue;
       stroke-width: 1.5px;
     }
-    
+
     .axis .title {
       font-size: 16px;
       font-weight: bold;
       text-transform: uppercase;
     }
-    
+
     .axis line,
     .axis path {
       fill: none;
       stroke: #000;
       shape-rendering: crispEdges;
     }
-    
+
     .axis2 .title2 {
       font-size: 16px;
       font-weight: bold;
       text-transform: uppercase;
     }
-    
+
     .axis2 line,
     .axis2 path {
       fill: none;
       stroke: #000;
       shape-rendering: crispEdges;
     }
-    
-    
+
+
     .label {
       -webkit-transition: fill 25ms linear;
+      font-size: 15px;
+      
     }
-    
+
     .active .label:not(.inactive) {
       font-weight: bold;
     }
-    
+
     .label.inactive {
       fill: #ccc;
     }
-    
+
      .label2 {
       -webkit-transition: fill 25ms linear;
+      font-size: 15px;
     }
-    
-    .active2 .label2:not(.inactive) {
+
+    .active2 .label2:not(.inactive2) {
       font-weight: bold;
     }
-    
+
     .label2.inactive2 {
       fill: #ccc;
+      font-weight: bold;
     }
-    
-    
+
+
     .foreground path.inactive {
       stroke: #ccc;
       stroke-opacity: .5;
       stroke-width: 1px;
     }
-    
+
     .foreground2 path.inactive2 {
       stroke: #ccc;
       stroke-opacity: .5;
       stroke-width: 1px;
     }
     
+    pre {
+      display: none;
+    }
+    
+    
+    body {
+    font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
     
     
     
@@ -118,7 +169,7 @@
  
 <body>
 
-  <nav class="navbar navbar-inverse bg-inverse">
+   <nav class="navbar navbar-inverse bg-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" style="color: #ffffff;" href="/">News: A friend or foe</a>
@@ -127,27 +178,124 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a style="color: #ffffff;" href="/">Home</a></li>
                     <li><a style="color: #ffffff;" href="/">About</a></li>
-                 
+
             </div>
         </div>
   </nav>
-  
+
+
+ <span style="font-size:30px;cursor:pointer; background:#25618D; padding: 6px; color: white; border-radius: 6px;" onclick="openNav()">&#9776; More</span>
 <div>
+  
+ 
     <div class="col-md-6">
-      <svg id= "svg1" width="800" height="400" style="background: white;"></svg>
-   
+      <svg id= "svg1" width="500" height="400" style="background: white;"></svg>
+
+    </div>
+
+
+    <div class="col-md-6">
+      <svg id="svg2" width="500" height="400" style="background: white;"></svg>
+
+    </div>
+    
+
+</div>
+
+
+
+<pre id="data1">
+January	February	March	April	name
+87.7	0.29	0.37	18.25	Mexico
+87.5	0.25	0.19	20.54	Natural Earth
+87.4	0.27	0.17	24.2	Winkel II
+86.5	0.23	0.28	19.15	Kavraisky VII
+85	0.26	0.18	23.28	Winkel Tripel
+84.3	0.27	0.19	21.27	Robinson
+83.2	0.25	0.43	16.14	Fahey
+81.9	0.36	0	28.73	Eckert IV
+81.8	0.26	0.24	22.31	Hölzel
+80.4	0.26	0.34	20.41	Wagner VI
+80	0.3	0.29	23.47	Eckert V
+</pre>
+
+
+
+
+<pre id="data2">
+Acc. 40º	150% Scale	Areal	Angular	name
+87.7	0.29	0.37	18.25	Rain
+87.5	0.25	0.19	20.54	Natural Earth
+87.4	0.27	0.17	24.2	Winkel II
+86.5	0.23	0.28	19.15	Kavraisky VII
+85	0.26	0.18	23.28	Winkel Tripel
+84.3	0.27	0.19	21.27	Robinson
+83.2	0.25	0.43	16.14	Fahey
+81.9	0.36	0	28.73	Eckert IV
+81.8	0.26	0.24	22.31	Hölzellllll
+</pre>
+
+
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <!--<svg height="100" width="100" style="padding: 15px"> <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /></svg>-->
+  <div>
+    <div class="col-md-6">
+      <!--<svg id= "svg3" width="400" height="400" style="background: white;"></svg>-->
+      <img src="publicc.png" style="height: 500px;">
+      <h1 style="color: white; margin-left: 190px">PUBLIC</h1>
     </div>
     
     
     <div class="col-md-6">
-      <svg id="svg2" width="800" height="400" style="background: white;"></svg>
-     
+      <!--<svg id="svg4" width="400" height="400" style="background: white;"></svg>-->
+      <img src="newss.png" style="height: 500px">
+      <h1 id="news" style="color: white; margin-left: 190px">NEWS</h1>
     </div>
     
 </div> 
+</div>
+
+
+
+
+
+
+<div style="left: 50%; text-align: center;">
+    <div>
+      <h4 id= "selected_public" style= "display: inline-block; width: 650px; height: 34px; border: solid 2px #236B8E; text-align: center; vertical-align: middle; line-height: 25px; border-radius: 5px;">
+        Please select a public topic
+      </h4>
+      <h4 id = "selected_news" style="display: inline-block; width: 650px; height: 34px; border: solid 2px #236B8E; text-align: center; vertical-align: middle; line-height: 25px; border-radius: 5px;">
+        Please select a news topic
+      </h4>
+      </div>
+      
+      <div>
+      <input name="updateButton" 
+           type="button" 
+           value="Compare Sentiments" 
+            class="btn btn-primary btn-large active"
+           onclick="update_line()" />    
+      </div>
+    </div>
+    
+    <div id="chartContainer" style="height: 360px; width: 75%; text-align: center; margin:auto;">
+</div>
+
   
+
+
+
+
+
+
+
 <script>
 /////////////////////////////////////////////////////////////////////////////////////PARALLEL COORDINATE PLOTS 1/////////////////////////////////////////////////////////////////////////////////
+
+ var selected_news = "", selected_public = "";
 
 var margin = {top: 30, right: 40, bottom: 20, left: 200},
     width = 700 - margin.left - margin.right,
@@ -203,9 +351,8 @@ var dimension = svg.selectAll(".dimension")
     .attr("class", "dimension")
     .attr("transform", function(d) { return "translate(" + x(d.name) + ")"; });
 
-d3.tsv("projections.tsv", function(error, data) {
-  if (error) throw error;
-
+var data = d3.tsv.parse( d3.select("pre#data1").text()) ;
+  console.log (data);
   dimensions.forEach(function(dimension) {
     dimension.scale.domain(dimension.type === Number
         ? d3.extent(data, function(d) { return +d[dimension.name]; })
@@ -248,6 +395,9 @@ d3.tsv("projections.tsv", function(error, data) {
     svg.classed("active", true);
     projection.classed("inactive", function(p) { return p !== d; });
     projection.filter(function(p) { return p === d; }).each(moveToFront);
+    console.log(d.name);
+    selected_public = d.name;
+    document.getElementById('selected_public').innerHTML = selected_public;
   }
 
   // function mouseout(d) {
@@ -258,7 +408,7 @@ d3.tsv("projections.tsv", function(error, data) {
   function moveToFront() {
     this.parentNode.appendChild(this);
   }
-});
+
 
 function draw(d) {
   return line(dimensions.map(function(dimension) {
@@ -284,22 +434,22 @@ var dimensions2 = [
     type: String
   },
   {
-    name: "January",
+    name: "Acc. 40º",
     scale: d3.scale.linear().range([0, height2]),
     type: Number
   },
   {
-    name: "February",
+    name: "150% Scale",
     scale: d3.scale.linear().range([height2, 0]),
     type: Number
   },
   {
-    name: "March",
+    name: "Areal",
     scale: d3.scale.sqrt().range([height2, 0]),
     type: Number
   },
   {
-    name: "April",
+    name: "Angular",
     scale: d3.scale.linear().range([height2, 0]),
     type: Number
   }
@@ -327,8 +477,7 @@ var dimension2 = svg2.selectAll(".dimension2")
     .attr("class", "dimension2")
     .attr("transform", function(d) { return "translate(" + x2(d.name) + ")"; });
 
-d3.tsv("projections2.tsv", function(error, data2) {
-  if (error) throw error;
+var data2 = d3.tsv.parse( d3.select("pre#data2").text());
 
   dimensions2.forEach(function(dimension2) {
     dimension2.scale.domain(dimension2.type === Number
@@ -342,10 +491,10 @@ d3.tsv("projections2.tsv", function(error, data2) {
       .data(data2)
     .enter().append("path")
       .attr("d", draw2);
-      
-      
+
+
   console.log(data2);
-  
+
   svg2.append("g")
       .attr("class", "foreground2")
     .selectAll("path")
@@ -375,6 +524,10 @@ d3.tsv("projections2.tsv", function(error, data2) {
     svg2.classed("active2", true);
     projection2.classed("inactive2", function(p) { return p !== d; });
     projection2.filter(function(p) { return p === d; }).each(moveToFront2);
+    
+    selected_news = d.name;
+    document.getElementById('selected_news').innerHTML = selected_news;
+    
   }
 
   // function mouseout(d) {
@@ -385,13 +538,93 @@ d3.tsv("projections2.tsv", function(error, data2) {
   function moveToFront2() {
     this.parentNode.appendChild(this);
   }
-});
+
 
 function draw2(d) {
   return line2(dimensions2.map(function(dimension2) {
     return [x2(dimension2.name), dimension2.scale(d[dimension2.name])];
   }));
 }
+
+
+function openNav() {
+    document.getElementById("mySidenav").style.width = "75%";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+
+function update_line(){
+  
+  if (selected_public == ''){
+    alert("No topic selected from Public section");
+  }
+  else if(selected_news == ''){
+    alert("No topic selected from News/Channel section");
+  }
+
+  
+  data1 = selected_news + '.json';
+  data2 = selected_public + '.json';
+  
+
+try{
+  
+  var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "theme3",
+            title: {
+                text: "Sentiment Analysis"
+            },
+            animationEnabled: true,
+            animationDuration: 2000,
+            toolTip: {
+                animationEnabled: true,
+                shared: true
+            },
+            data: []
+        });
+        
+        
+//function update_line(){
+
+
+var dataSeries1, dataSeries2;
+
+$.when(
+    
+    $.getJSON(data1, function(result) {
+      dataSeries1 = {
+                        type: "spline",
+                        showInLegend: true,
+                        name: "News",
+                        color: "rgba(221, 204, 255)",
+                        dataPoints: result
+                    }
+    }),
+    $.getJSON(data2, function(result) {
+        dataSeries2 = {
+          type: "spline",
+          showInLegend: true,
+          name: "Public",
+          color: "rgba(255, 153, 187)",
+          dataPoints: result
+        }
+    })
+ ).then(function	()	{ //).done(function	()	{
+ 		chart.options.data.push(dataSeries1);
+    chart.options.data.push(dataSeries2);
+    chart.render();
+ }); 
+}
+
+catch(error){
+    window.alert(error);  
+}
+
+}
+
+
 
 </script>
 

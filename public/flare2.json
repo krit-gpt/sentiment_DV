@@ -16,7 +16,7 @@
      "name": "cluster",
       
      "children": [
-      {"name": "Floods", "size": 3800}  
+      {"name": "Negative: 98%", "size": 3800}  
      ]
     }
    ]
@@ -25,13 +25,13 @@
 
 
   {
-   "name": "Shootings",
+   "name": "Football",
    "children": [
     {
      "name": "cluster",
       
      "children": [
-      {"name": "shooting", "size": 5000}
+      {"name": "Neutral: 80%", "size": 5000}
      ]
     }
    ]
@@ -45,7 +45,7 @@
      "name": "cluster",
       
      "children": [
-      {"name": "Flu", "size": 1938}
+      {"name": "Negative: 99%", "size": 1938}
      ]
     }
    ]
@@ -58,33 +58,33 @@
      "name": "cluster",
      
      "children": [
-      {"name": "Harvey", "size": 2500}
+      {"name": "Negative: 95%", "size": 2500}
      ]
     }
    ]
   },
 
   {
-   "name": "5 Presidents",
+   "name": "Guns",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Presidents", "size": 5000}
+      {"name": "Negative: 76%", "size": 5000}
      ]
     }
    ]
   },
 
   {
-   "name": "Concert",
+   "name": "Market Share",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Hurricane Concert", "size": 3399}
+      {"name": "Neutral: 84%", "size": 3399}
      ]
     }
    ]
@@ -92,13 +92,13 @@
 
 
   {
-   "name": "Aggies vs Longhorns",
+   "name": "Trump",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Aggies Win!", "size": 8538}
+      {"name": "Negative: 68%", "size": 8538}
      ]
     }
    ]
@@ -112,20 +112,20 @@
      "name": "Humidity",
      
      "children": [
-      {"name": "shooting", "size": 738}
+      {"name": "Negative: 83%", "size": 738}
      ]
     }
    ]
   },
   
    {
-   "name": "iPhone",
+   "name": "iPhone X",
    "children": [
     {
      "name": "Humidity",
      
      "children": [
-      {"name": "shooting", "size": 138}
+      {"name": "Negative: 56%", "size": 138}
      ]
     }
    ]
@@ -139,33 +139,33 @@
      "name": "Humidity",
      
      "children": [
-      {"name": "shooting", "size": 458}
+      {"name": "Neutral: 83%", "size": 458}
      ]
     }
    ]
   },
   
    {
-   "name": "Breaking Bad",
+   "name": "Obama Care",
    "children": [
     {
      "name": "Humidity",
      
      "children": [
-      {"name": "shooting", "size": 2098}
+      {"name": "78%", "size": 2098}
      ]
     }
    ]
   },
   
    {
-   "name": "Blue",
+   "name": "Fashion",
    "children": [
     {
      "name": "Humidity",
      
      "children": [
-      {"name": "shooting", "size": 987}
+      {"name": "Neutral: 88%", "size": 987}
      ]
     }
    ]
@@ -178,7 +178,7 @@
      "name": "Humidity",
      
      "children": [
-      {"name": "shooting", "size": 1038}
+      {"name": "Negative: 53%", "size": 1038}
      ]
     }
    ]

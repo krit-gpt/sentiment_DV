@@ -89,28 +89,28 @@
            
     <input name="updateButton" 
            type="button" 
-           value="Channel 1" 
+           value="DallasNews" 
             class="btn btn-primary btn-large active"
            onclick="updateData_channel1()" />
     
     
     <input name="updateButton" 
            type="button" 
-           value="Channel 2" 
+           value="KRBC News" 
             class="btn btn-primary btn-large active"
            onclick="updateData_channel2()" />
     
     <input name="updateButton" 
            type="button" 
-           value="Channel 3" 
+           value="Fox 4 News" 
             class="btn btn-primary btn-large active"
            onclick="updateData_channel3()" />
     
-    <input name="updateButton" 
-           type="button" 
-           value="Channel 4" 
-            class="btn btn-primary btn-large active"
-           onclick="updateData_channel4()" />
+    <!--<input name="updateButton" -->
+    <!--       type="button" -->
+    <!--       value="Channel 4" -->
+    <!--        class="btn btn-primary btn-large active"-->
+    <!--       onclick="updateData_channel4()" />-->
 </div>
 
 
@@ -134,22 +134,22 @@
 
 
     <div>
-      <h4 id= "selected_public" style= "display: inline-block; width: 650px; height: 34px; border: solid 5px #236B8E; text-align: center; vertical-align: middle; line-height: 25px;">
+      <h4 id= "selected_public" style= "display: inline-block; width: 650px; height: 34px; border: solid 2px #236B8E; text-align: center; vertical-align: middle; line-height: 25px; border-radius: 5px;">
         Please select a public topic
       </h4>
-      <h4 id = "selected_news" style="display: inline-block; width: 650px; height: 34px; border: solid 5px #236B8E; text-align: center; vertical-align: middle; line-height: 25px;">
+      <h4 id = "selected_news" style="display: inline-block; width: 650px; height: 34px; border: solid 2px #236B8E; text-align: center; vertical-align: middle; line-height: 25px; border-radius: 5px;">
         Please select a news topic
       </h4>
       </div>
       
-      <div>
+      <div style="margin-left: 24px">
       <input name="updateButton" 
            type="button" 
            value="Compare Sentiments" 
             class="btn btn-primary btn-large active"
-           onclick="update_line()" />    
-           <!--change this-->
-</div>
+           onclick="update_line()" />
+      <a class="btn btn-primary btn-large active" href="/side_bar">Parallel Coordinate Plots</a>
+      </div>
     
     <br>
     <br>
@@ -201,7 +201,7 @@
                       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
                       .style("fill", function(d,i) { 
                       	console.log(d.data.name);
-                      	return d.data.color ? d.data.color : "ff99bb"; })
+                      	return d.data.color ? d.data.color : "#ff99bb"; })
                       .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
                 
                   var text = g.selectAll("text")
@@ -216,7 +216,7 @@
                   var node = g.selectAll("circle,text");
                 
                   svg
-                      .style("background", "#ffffff ") // change color of the square
+                      .style("background", "#000000 ") // change color of the square
                       .on("click", function() { 
                       zoom(root); });
                 
@@ -246,6 +246,8 @@
                   }
                 
                   function zoomTo(v) {
+                    svg
+                    .style("background", "#ffffff");
                     var k = diameter / v[2]; view = v;
                     node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
                     circle.attr("r", function(d) { return d.r * k; });
@@ -330,6 +332,8 @@
                   }
                 
                   function zoomTo(v) {
+                     svg2
+                    .style("background", "#ffffff");
                     var k = diameter2 / v[2]; view = v;
                     node2.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
                     circle2.attr("r", function(d) { return d.r * k; });
@@ -343,6 +347,9 @@
        
         function updateData_Main() {
                 
+                
+                var svg2 = d3.select("#svg2");
+                svg2.selectAll("*").remove();
                 
                 document.getElementById("news").innerHTML = "NEWS";
           
@@ -408,6 +415,8 @@
                   }
                 
                   function zoomTo(v) {
+                     svg2
+                    .style("background", "#ffffff");
                     var k = diameter2 / v[2]; view = v;
                     node2.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
                     circle2.attr("r", function(d) { return d.r * k; });
@@ -423,10 +432,11 @@
        
         function updateData_channel1() {
           
+           var svg2 = d3.select("#svg2");
+                svg2.selectAll("*").remove();
           
           
-          
-          document.getElementById("news").innerHTML = "CHANNEL 1";
+          document.getElementById("news").innerHTML = "DallasNews";
           
           
                 var svg2 = d3.select("#svg2"),
@@ -474,6 +484,9 @@
                   zoomTo([root2.x, root2.y, root2.r * 2 + margin2]);
                 
                   function zoom(d) {
+                    
+                     svg2
+                    .style("background", "#ffffff");
                     var focus1 = focus; focus = d;
                     
                     if (d.parent !== null){
@@ -511,7 +524,10 @@
        
         function updateData_channel2() {
           
-          document.getElementById("news").innerHTML = "CHANNEL 2";
+           var svg2 = d3.select("#svg2");
+                svg2.selectAll("*").remove();
+          
+          document.getElementById("news").innerHTML = "KRBC News";
           
           
                 var svg2 = d3.select("#svg2"),
@@ -597,7 +613,11 @@
        
         function updateData_channel3() {
           
-          document.getElementById("news").innerHTML = "CHANNEL 3";
+          
+           var svg2 = d3.select("#svg2");
+                svg2.selectAll("*").remove();
+                
+          document.getElementById("news").innerHTML = "Fox 4 News";
           
           
                 var svg2 = d3.select("#svg2"),
@@ -683,6 +703,11 @@
        
         function updateData_channel4() {
           
+          
+           var svg2 = d3.select("#svg2");
+                svg2.selectAll("*").remove();
+                
+                
           document.getElementById("news").innerHTML = "CHANNEL 4";
           
           

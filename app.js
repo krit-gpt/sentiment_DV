@@ -29,8 +29,16 @@ app.get("/line", function(req, res){
     res.sendFile(path.join(__dirname + '/line.html'));
 });
 
+app.get("/side_bar", function(req, res){
+    res.sendFile(path.join(__dirname + '/side_bar.html'));
+});
+
 app.get("/line2", function(req, res){
     res.sendFile(path.join(__dirname + '/line2.html'));
+});
+
+app.get("/trial", function(req, res){
+    res.sendFile(path.join(__dirname + '/trial.html'));
 });
 
 

@@ -15,7 +15,7 @@
      "name": "cluster",
       
      "children": [
-      {"name": "Floods", "size": 3938}  
+      {"name": "Negative: 91%", "size": 3938}  
      ]
     }
    ]
@@ -30,7 +30,7 @@
      "name": "cluster",
       
      "children": [
-      {"name": "Negative: 89%", "size": 9938}
+      {"name": "Negative: 53%", "size": 9938}
      ]
     }
    ]
@@ -44,46 +44,46 @@
      "name": "cluster",
       
      "children": [
-      {"name": "Flu", "size": 938}
+      {"name": "Negative: 93%", "size": 938}
      ]
     }
    ]
   },
 
   {
-   "name": "Hurricane",
+   "name": "Hurricane Harvey",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Harvey", "size": 2938}
+      {"name": "Negative: 97%", "size": 2938}
      ]
     }
    ]
   },
 
   {
-   "name": "5 Presidents",
+   "name": "Trump",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Presidents", "size": 9938}
+      {"name": "Positive: 75%", "size": 9938}
      ]
     }
    ]
   },
 
   {
-   "name": "Hurricane Concert",
+   "name": "Obama Care",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Positive: 95%", "size": 10938}
+      {"name": "Positive: 57%", "size": 3093}
      ]
     }
    ]
@@ -91,13 +91,13 @@
 
 
   {
-   "name": "Aggies vs Longhorns",
+   "name": "Football",
    "children": [
     {
      "name": "cluster",
      
      "children": [
-      {"name": "Aggies Win!", "size": 1938}
+      {"name": "Neutral: 70%", "size": 1938}
      ]
     }
    ]
@@ -111,7 +111,7 @@
      "name": "Humidity",
      
      "children": [
-      {"name": "shooting", "size": 6938}
+      {"name": "Negative: 62%", "size": 6938}
      ]
     }
    ]

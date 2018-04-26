@@ -1,63 +1,302 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript">
-window.onload = function () {
-
-  
-  var chart = new CanvasJS.Chart("chartContainer", {
-            theme: "theme1",
-            title: {
-                text: "Statistics"
-            },
-            animationEnabled: true,
-            animationDuration: 1500,
-            toolTip: {
-                animationEnabled: true,
-                shared: true
-            },
-            data: []
-        });
-
-var dataSeries1, dataSeries2;
-$.when(
-    $.getJSON("https://api.myjson.com/bins/3ax15", function(result) {
-      dataSeries1 = {
-                        type: "spline",
-                        showInLegend: true,
-                        name: "Likes",
-                        // color: "rgba(54,158,173,.6)",
-                        dataPoints: result
-                    }
-    }),
-    $.getJSON("https://api.myjson.com/bins/1krdl", function(result) {
-        dataSeries2 = {
-          type: "spline",
-          showInLegend: true,
-          name: "Dislikes",
-          dataPoints: result
-        }
-    })
- ).then(function	()	{ //).done(function	()	{
- 		chart.options.data.push(dataSeries1);
-    chart.options.data.push(dataSeries2);
-    chart.render();
- }); 
-
-
-
-
-
-
-}
-</script>
-</head>
-  
-  
+	<meta charset="utf-8">
+  	<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  	
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
+  	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
+    
+    <style>
+    body {
+      margin: 0px;
+    }
+    .node {
+      cursor: pointer;
+      }
+    
+    .node:hover {
+      stroke: #000;
+      stroke-width: 2.5px;
+    }
+    
+    .node--leaf {
+      fill: white;
+    }
+    
+    .label {
+      font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-anchor: middle;
+      /*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;*/
+    }
+    
+    .label2 {
+      font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-anchor: middle;
+      /*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;*/
+    }
+    
+    .label,
+    .label2,
+    .node--root,
+    .node--leaf {
+     pointer-events: none;
+    }
+    
+    .i-am-centered { margin: auto; max-width: 300px;}
+    
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 1.5px;
+    }
+    
+    #parent {
+    text-align:center;
+    }
+    </style>
+ </head> 
+ 
+ 
 <body>
-<div id="chartContainer" style="height: 370px; width: 100%;"></div>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</body>
-</html>
+
+  <nav class="navbar navbar-inverse bg-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" style="color: #ffffff;" href="/">News: A friend or foe</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a style="color: #ffffff;" href="/">Home</a></li>
+                    <li><a style="color: #ffffff;" href="/">About</a></li>
+                 
+            </div>
+        </div>
+    </nav>
+
+  
+<div class="row" id="parent">
+  <div id="option">
+    <input name="updateButton" 
+           type="button" 
+           value="News" 
+           class="btn btn-primary btn-large active"
+           onclick="updateData_Main()" />
+           
+           
+           
+    <input name="updateButton" 
+           type="button" 
+           value="Channel 1" 
+            class="btn btn-primary btn-large active"
+           onclick="updateData_channel1()" />
+    
+    
+    <input name="updateButton" 
+           type="button" 
+           value="Channel 2" 
+            class="btn btn-primary btn-large active"
+           onclick="updateData_channel2()" />
+    
+    <input name="updateButton" 
+           type="button" 
+           value="Channel 3" 
+            class="btn btn-primary btn-large active"
+           onclick="updateData_channel3()" />
+    
+    <input name="updateButton" 
+           type="button" 
+           value="Channel 4" 
+            class="btn btn-primary btn-large active"
+           onclick="updateData_channel4()" />
+</div>
+
+
+
+<div>
+    <div class="col-md-6">
+      <svg id= "svg3" width="400" height="400" style="background: white;"></svg>
+      <h1>PUBLIC</h1>
+    </div>
+    
+    
+    <div class="col-md-6">
+      <svg id="svg4" width="400" height="400" style="background: white;"></svg>
+      <h1 id="news">NEWS</h1>
+    </div>
+    
+</div> 
+<br>
+
+
+
+
+    <div>
+      <h4 id= "selected_public" style= "display: inline-block; width: 650px; height: 34px; border: solid 5px #236B8E; text-align: center; vertical-align: middle; line-height: 25px;">
+        Please select a public topic
+      </h4>
+      <h4 id = "selected_news" style="display: inline-block; width: 650px; height: 34px; border: solid 5px #236B8E; text-align: center; vertical-align: middle; line-height: 25px;">
+        Please select a news topic
+      </h4>
+      </div>
+      
+<!--      <div>-->
+<!--      <input name="updateButton" -->
+<!--           type="button" -->
+<!--           value="Compare Sentiments" -->
+<!--            class="btn btn-primary btn-large active"-->
+<!--           onclick="update_line()" />    -->
+           <!--change this-->
+<!--</div>-->
+    
+    <br>
+    <br>
+    
+
+    
+    
+ <div id="chartContainer" style="height: 360px; width: 75%; text-align: center; margin:auto;">
+</div>
+</div>
+
+
+<div id="my-visualisation">
+
+<script type="text/javascript">
+
+          var selected_news = "", selected_public = "";  //variables to make the brush and link happen.
+          
+          
+
+                var svg3 = d3.select("#svg3"),
+                    margin3 = 20,
+                    diameter3 = +svg3.attr("width"),
+                    g3 = svg3.append("g").attr("transform", "translate(" + diameter3 / 2 + "," + diameter3 / 2 + ")");
+                
+                var color3 = d3.scaleLinear()
+                    .domain([-1, 5])
+                    .range(["hsl(200,80%,80%)", "hsl(128,30%,90%)"])
+                    .interpolate(d3.interpolateHcl);
+                
+                var pack3 = d3.pack()
+                    .size([diameter3 - margin3, diameter3 - margin3])
+                    .padding(2);
+                
+                d3.json("flare.json", function(error, root3) {
+                  if (error) throw error;
+                
+                  root3 = d3.hierarchy(root3)
+                      .sum(function(d) { return d.size; })
+                      .sort(function(a, b) { return b.value - a.value; });
+                
+                  
+                  var nodes3 = pack3(root3).descendants();
+                  var  view3;
+                
+                  var circle3 = g3.selectAll("circle")
+                    .data(nodes3)
+                    .enter().append("circle")
+                      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+                      .style("fill", function(d,i) { 
+                      	console.log(d.data.name);
+                      	return d.data.color ? d.data.color : "#ff99bb"; })
+
+                
+                  var text3 = g3.selectAll("text")
+                    .data(nodes3)
+                    .enter().append("text")
+                      .attr("class", "label")
+                      .style("fill-opacity", function(d) { return d.parent === root3 ? 1 : 0; })
+                      .style("display", function(d) { return d.parent === root3 ? "inline" : "none"; })
+                      .style("font-size", function(d){ return d.parent === root3 ? "12px" : "24px";})
+                 	      .text(function(d) { return d.data.name; });
+                
+                  var node3 = g3.selectAll("circle,text");
+                
+                  svg3
+                      .style("background", "#ffffff ") 
+                
+                  zoomTo3([root3.x, root3.y, root3.r * 2 + margin3]);
+                
+                 
+                  function zoomTo3(v) {
+                    var k = diameter3 / v[2]; view3 = v;
+                    node3.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+                    circle3.attr("r", function(d) { return d.r * k; });
+                  }
+                });
+
+                
+///////////////////////////////////////////////////////SVG2///////////////////////////////////////////////////////////////                
+// ------------------------------------------------------------------------------------------------
+               var svg4 = d3.select("#svg4"),
+                    margin4 = 20,
+                    diameter4 = +svg4.attr("width"),
+                    g4 = svg4.append("g").attr("transform", "translate(" + diameter4 / 2 + "," + diameter4 / 2 + ")");
+                
+                var color4 = d3.scaleLinear()
+                    .domain([-1, 5])
+                    .range(["hsl(200,80%,80%)", "hsl(128,30%,90%)"])
+                    .interpolate(d3.interpolateHcl);
+                
+                var pack4 = d3.pack()
+                    .size([diameter4 - margin4, diameter4 - margin4])
+                    .padding(2);
+                
+                d3.json("flare2.json", function(error, root4) {
+                  if (error) throw error;
+                
+                  root4 = d3.hierarchy(root4)
+                      .sum(function(d) { return d.size; })
+                      .sort(function(a, b) { return b.value - a.value; });
+                
+                  
+                  var nodes4 = pack4(root4).descendants();
+                  var  view4;
+                
+                  var circle4 = g4.selectAll("circle")
+                    .data(nodes4)
+                    .enter().append("circle")
+                      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+                      .style("fill", function(d,i) { 
+                      	console.log(d.data.name);
+                      	return d.data.color ? d.data.color : "#ddccff"; })
+
+                
+                  var text3 = g4.selectAll("text")
+                    .data(nodes4)
+                    .enter().append("text")
+                      .attr("class", "label")
+                      .style("fill-opacity", function(d) { return d.parent === root4 ? 1 : 0; })
+                      .style("display", function(d) { return d.parent === root4 ? "inline" : "none"; })
+                      .style("font-size", function(d){ return d.parent === root4 ? "12px" : "24px";})
+                 	      .text(function(d) { return d.data.name; });
+                
+                  var node4 = g4.selectAll("circle,text");
+                
+                  svg4
+                      .style("background", "#ffffff ") // change color of the square
+                     
+                  zoomTo4([root4.x, root4.y, root4.r * 2 + margin4]);
+                
+                
+                
+                  function zoomTo4(v) {
+                    var k = diameter4 / v[2]; view4 = v;
+                    node4.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+                    circle4.attr("r", function(d) { return d.r * k; });
+                  }
+                });
+                
+
+        
+</script>
+
+
+</div>
+
+
+</body>  
+</html> 
