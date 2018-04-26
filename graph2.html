@@ -8,6 +8,9 @@
   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
   	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
+  	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     
     <style>
     body {
@@ -75,6 +78,18 @@
             </div>
         </div>
     </nav>
+<div class="container">
+  
+  <div class="alert alert-info alert-dismissible" id="popp">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Usage!</strong> 
+    <ul>
+    <li>The bubbles show the top tweets.</li>
+    <li>The size of the bubbles are proportional to the number of tweets.</li>
+    <li>Click on the bubbles to see the average sentiment.</li>
+    </ul>
+  </div>
+</div>
 
   
 <div class="row" id="parent">
@@ -111,6 +126,15 @@
     <!--       value="Channel 4" -->
     <!--        class="btn btn-primary btn-large active"-->
     <!--       onclick="updateData_channel4()" />-->
+    
+    
+    <!--<input name="updateButton" -->
+    <!--       type="button" -->
+    <!--       value="Info" -->
+    <!--        class="btn btn-primary btn-large active pull-right"-->
+    <!--       id="pop" -->
+    <!--       text-align="left"-->
+    <!--       style="margin-right: 25px;"/>-->
 </div>
 
 
@@ -789,6 +813,21 @@
 
 //////////////////////////////////////////////////////////////////////////LINE CHART///////////////////////////////////////////////////////////////////
 
+                
+                
+               $(document).ready(function(){
+              $('#pop').click(function(){
+              $('#popp').show()
+            }) 
+});
+                
+              
+              
+              
+              
+              
+              
+              
               
               // width= 400;
               // height=400;
